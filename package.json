@@ -2,14 +2,13 @@
   "name": "koa-mongo-seed",
   "version": "1.0.0",
   "description": "Koa + MongoDB based Nodejs web server",
-  "main": "app.js",
+  "main": "server.js",
   "repository": "",
   "author": "",
   "license": "SEE LICENSE IN <filename>",
   "scripts": {
-    "server": "nodemon src/app.js",
-    "start": "node src/app.js",
-    "dev": "pm2 start src/app.js --watch --no-daemon"
+    "server": "node src/server.js",
+    "dev": "pm2 start src/server.js --watch --no-daemon"
   },
   "dependencies": {
     "composable-middleware": "^0.3.0",
