@@ -1,5 +1,5 @@
 const passport = require("koa-passport");
-const User = require("../models/user.model");
+const User = require("../models/GeneralUser");
 
 /**
  * Serialize user
@@ -33,22 +33,24 @@ passport.deserializeUser(async (id, done) => {
  * @returns
  */
 const LocalStrategy = require("passport-local").Strategy;
-passport.use(
-  new LocalStrategy(async (username, password, done) => {
-    const user = await User.findOne(username);
-    if (user) {
-      // bcrypt.compare(password, user.password, (error, response) => {
-      //   if (response) {
-      //     done(null, user);
-      //   } else {
-      //     done(null, false);
-      //   }
-      // });
-    } else {
-      done(null, false);
-    }
-  })
-);
+passport.use(new LocalStrategy({
+        usernameField: 'userName',
+        passwordField: 'password',
+        session: false
+    },
+  function(username, password, done) {
+    User.findOne({ username: username }, function (err, user) {
+      if (err) { return done(err); }
+      if (!user) {
+        return done(null, false, { message: 'Incorrect username.' });
+      }
+      if (!user.validPassword(password)) {
+        return done(null, false, { message: 'Incorrect password.' });
+      }
+      return done(null, user);
+    });
+  }
+));
 
 /**
  * google strategy of Passport.js

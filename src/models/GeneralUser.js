@@ -32,7 +32,11 @@ let GeneralUser = new Schema({
     address: { type: String },
     bio: { type: String },
     position: { type: String },
-    whyInterest: { type: String }
+    whyInterest: { type: String },
+
+    museumSubs: {type: Array}, //массив айди музеев
+    achievements: {type: Array}, //массив строк
+    charm: {type: Number}
 
 });
 module.exports = mongoose.model('User', GeneralUser);

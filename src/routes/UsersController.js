@@ -18,6 +18,7 @@ const saltRounds = 10;
  */
 router.post("/login", async (ctx, next) => {
   return passport.authenticate("local", (err, user) => {
+    // ctx.body = user;
     if (user === false) {
       ctx.body = { success: false };
       ctx.throw(401);

@@ -4,6 +4,7 @@ const bodyParser = require("koa-bodyparser");
 
 const router = require("./routes");
 const mongoose = require("mongoose");
+const MongoStore = require("mongoose");
 const PORT = 3000;
 
 // authentication
@@ -27,10 +28,19 @@ const session = require("koa-session");
 app.keys = [process.env.SESSION_SECRET];
 
 app
-  .use(session({}, app))
-  .use(bodyParser())
+  .use(session({
+    secret: 'secrettexthere',
+    saveUninitialized: true,
+    resave: true,
+    // using store session on MongoDB using express-session + connect
+    store: new MongoStore({
+    url: config.urlMongo,
+    collection: 'sessions'
+  })
+  }, app))
   .use(passport.initialize())
   .use(passport.session())
+  .use(bodyParser())
   .use(router.routes())
   .use(router.allowedMethods());
 
