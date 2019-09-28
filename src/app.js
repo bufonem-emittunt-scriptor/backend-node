@@ -13,15 +13,12 @@ const passport = require("koa-passport");
 
 app = new Koa();
 
-mongoose.Promise = global.Promise;
-mongoose
-  .connect(process.env.MONGO_URI, { useNewUrlParser: true })
-  .then(response => {
-    console.log("Success connected to mongoDB");
-  })
-  .catch(error => {
-    console.log(error);
-  });
+mongoose.set('useCreateIndex', true);
+mongoose.connect('mongodb+srv://mongodb:mongodb@cluster0-yhow8.mongodb.net/test?retryWrites=true&w=majority', { useNewUrlParser: true }).then((res) => {
+    console.log('Connection is successful');
+}).catch((e) => {
+    throw new Error(e);
+});
 
 // sessions
 const session = require("koa-session");
