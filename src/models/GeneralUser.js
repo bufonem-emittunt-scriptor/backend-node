@@ -1,8 +1,8 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
 const mongoose = require("mongoose");
+
 let Schema = mongoose.Schema;
-let volunteerSchema = new Schema({
+
+let GeneralUser = new Schema({
     id: { type: Number },
     userName: { type: String },
     password: { type: String },
@@ -25,8 +25,16 @@ let volunteerSchema = new Schema({
     newsConsumer: { type: Boolean },
     tel: { type: String },
     email: { type: String },
-    volunteerRole: { type: String },
     creationDate: { type: Date },
+
+    role: {type: String},
+
+    address: { type: String },
+    bio: { type: String },
+    position: { type: String },
+    whyInterest: { type: String }
+
 });
-exports.VolunteerSchema = mongoose.model('Voluenteer', volunteerSchema);
+module.exports = mongoose.model('User', GeneralUser);
+// exports.GeneralUser = mongoose.model('GeneralUser', GeneralUser);
 //# sourceMappingURL=VolunteerSchema.js.map

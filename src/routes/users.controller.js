@@ -3,7 +3,7 @@ const Router = require("koa-router");
 const router = new Router();
 const passport = require("koa-passport");
 const { isAuthenticated } = require("../utils");
-const User = require("../models/user.model");
+const User = require("./../models/GeneralUser");
 const jwt = require("jsonwebtoken");
 
 const saltRounds = 10;
@@ -187,37 +187,27 @@ router.get(
  * @param object 					User object to be created
  * @returns object|exception 				Newly created user object or exception
  */
-router.post("/", async (ctx, next) => {
-  ctx.checkBody("firstName", "First name can't be empty").notEmpty();
-  ctx.checkBody("lastName", "Last name can't be empty.").notEmpty();
-  ctx
-    .checkBody("email", "The email you entered is invalid, please try again.")
-    .isEmail();
-  ctx
-    .checkBody(
-      "email",
-      "Email address must be between 4-100 characters long, please try again."
-    )
-    .len(4, 100);
-  ctx
-    .checkBody("password", "Password must be between 8-100 characters long.")
-    .len(5, 100);
-  const errors = await ctx.validationErrors();
-  if (errors) {
-    ctx.body = `There have been validation errors: ${errors}`;
-  } else {
-    // ctx.request.body.password = await bcrypt.hash(
-    //   ctx.request.body.password,
-    //   saltRounds
-    // );
-    try {
-      const user = await User.create(ctx.request.body);
-      ctx.body = user;
-    } catch (error) {
-      ctx.body = error;
-    }
+router.post("/", async (ctx) => {
+  // console.log(User, 'user');
+  // console.log(ctx.request.body, 'ctx.request.body');
+  // ctx.body = ctx.request.body;
+  let userName = ctx.request.body.userName;
+  let password = ctx.request.body.password;
+  let role = ctx.request.body.role;
+
+  if(!userName || !password || !role){
+    ctx.body = "Заполните обязательные поля 'userName, password, role'";
+    ctx.response.status = 403;
+    return;
   }
-  await next();
+
+  try{
+    const user = await User.create(ctx.request.body);
+    ctx.body = "Пользователь успешно сохранен";
+    ctx.response.status = 200;
+  }catch (e) {
+    console.log(e);
+  }
 });
 
 /**
