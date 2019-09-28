@@ -7,7 +7,7 @@
   "author": "",
   "license": "SEE LICENSE IN <filename>",
   "scripts": {
-    "server": "node src/server.js",
+    "start": "node src/server.js",
     "dev": "pm2 start src/server.js --watch --no-daemon"
   },
   "dependencies": {
