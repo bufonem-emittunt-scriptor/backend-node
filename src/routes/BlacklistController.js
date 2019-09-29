@@ -1,7 +1,7 @@
-const dataModel = require("../models/product.model");
-const Router = require("koa-router");
+const dataModel = require("../models/BlackListSchema");
+const BLRouter = require("koa-router");
 const { isAuthenticated } = require("../utils");
-const router = new Router();
+const router = new BLRouter();
 
 router.get("/", async (ctx, next) => {
   const model = await dataModel.find({});
@@ -9,26 +9,18 @@ router.get("/", async (ctx, next) => {
 });
 
 router.get("/:id", async (ctx, next) => {
-  // Fetch one Todo’s from the database and return as payload
   const id = ctx.params.id;
   const model = await dataModel.findById(id);
   ctx.body = model;
 });
 
-router.get("/findByTitle/:id", async (ctx, next) => {
+router.get("/findByVolunteer/:id", async (ctx, next) => {
   const id = ctx.params.id;
   const model = await dataModel.find({
-    title: { $regex: id, $options: "i" }
+    voluenteerId: { id }
   });
   ctx.body = model;
 });
-
-// #Example
-// router.get("/findBySomething/:id", async (ctx, next) => {
-//   const id = ctx.params.id;
-//   const model = await dataModel.find({ something: id });
-//   ctx.body = model;
-// });
 
 router.post("/", isAuthenticated(), async (ctx, next) => {
   // Create New Todo from payload sent and save to database
@@ -38,22 +30,17 @@ router.post("/", isAuthenticated(), async (ctx, next) => {
 });
 
 router.delete("/:id", isAuthenticated(), async (ctx, next) => {
-  // Get id from url parameters and find Todo in database
   const id = ctx.params.id;
   const model = await dataModel.findById(id);
 
-  // Delete todo from database and return deleted object as reference
   const deletedTodo = await dataModel.remove();
   ctx.body = deletedTodo;
 });
 
 router.put("/:id", isAuthenticated(), async (ctx, next) => {
-  // Find Todo based on id, then toggle done on/off
   const id = ctx.params.id;
   const todo = await dataModel.findById(id);
-  todo.done = !todo.done;
 
-  // Update todo in database
   const updatedTodo = await todo.save();
   ctx.body = updatedTodo;
 });
