@@ -76,15 +76,15 @@ router.get("/", isAuthenticated(), async (ctx, next) => {
  * @param integer
  * @returns object|null 	User object or null
  */
-router.get("/:id", isAuthenticated(), async (ctx, next) => {
-  const user = await User.findById(ctx.params.id);
-  if (user) {
-    ctx.body = user;
-  } else {
-    ctx.status = 404;
-    ctx.body = `User with id ${ctx.params.id} was not found.`;
-  }
-});
+// router.get("/:id", isAuthenticated(), async (ctx, next) => {
+//   const user = await User.findById(ctx.params.id);
+//   if (user) {
+//     ctx.body = user;
+//   } else {
+//     ctx.status = 404;
+//     ctx.body = `User with id ${ctx.params.id} was not found.`;
+//   }
+// });
 
 /**
  * Authentication required
@@ -213,6 +213,12 @@ router.post("/", async (ctx) => {
   let password = ctx.request.body.password;
   let role = ctx.request.body.role;
 
+  let body = {
+    ...ctx.request.body,
+    id: new Date().getTime(),
+    creationDate: new Date()
+  }
+
   // console.log(ctx.request.body.userName, userName, 'userName');
 
   if(!userName || !password || !role){
@@ -251,6 +257,22 @@ router.patch("/:id", isAuthenticated(), async (ctx, next) => {
  * @param integer					User id
  * @returns object|null 	Deleted user object
  */
+
+router.get("/:id", async (ctx, next) => {
+  let id = ctx.request.body.id;
+  // let password = ctx.request.body.password;
+
+  let user = await User.find({id});
+  console.log(user.length, 'user');
+  if(user.length === 0){
+    ctx.body = "Пользователь не найден";
+    ctx.response.status = 401;
+  }
+  else{
+     ctx.body = user[0];
+  }
+});
+
 router.delete("/:id", isAuthenticated(), async (ctx, next) => {
   try {
     await User.deleteById(ctx.params.id); //should be just disabled
