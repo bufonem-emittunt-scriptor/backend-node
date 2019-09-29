@@ -19,17 +19,32 @@ const saltRounds = 10;
  * @returns array 			Array of users
  */
 router.post("/login", async (ctx, next) => {
-  return passport.authenticate("local", (err, user) => {
-    // ctx.body = user;
-    if (user === false) {
-      ctx.body = { success: false };
-      ctx.throw(401);
-    } else {
-      ctx.body = { success: true };
-      return ctx.login(user);
-    }
-  })(ctx);
-  await next();
+  let login = ctx.request.body.login;
+  let password = ctx.request.body.password;
+
+  let user = await User.find({userName: login, password});
+  console.log(user.length, 'user');
+  if(user.length === 0){
+    ctx.body = "Неверный логин или пароль";
+    ctx.response.status = 401;
+  }
+  else{
+     ctx.body = user[0];
+  }
+
+
+
+  // return passport.authenticate("local", (err, user) => {
+  //   // ctx.body = user;
+  //   if (user === false) {
+  //     ctx.body = { success: false };
+  //     ctx.throw(401);
+  //   } else {
+  //     ctx.body = { success: true };
+  //     return ctx.login(user);
+  //   }
+  // })(ctx);
+  // await next();
 });
 
 /**
