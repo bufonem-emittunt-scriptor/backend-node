@@ -217,7 +217,7 @@ router.post("/", async (ctx) => {
     ...ctx.request.body,
     id: new Date().getTime(),
     creationDate: new Date()
-  }
+  };
 
   // console.log(ctx.request.body.userName, userName, 'userName');
 
@@ -227,7 +227,7 @@ router.post("/", async (ctx) => {
   }
 
   try{
-    const user = await User.create(ctx.request.body);
+    const user = await User.create(body);
     ctx.body = "Пользователь успешно сохранен";
     ctx.response.status = 200;
   }catch (e) {
