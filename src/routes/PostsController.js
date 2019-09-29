@@ -25,7 +25,7 @@ router.get("/:id", async (ctx, next) => {
 
 router.post("/create", async (ctx, next) => {
   let platformId = ctx.request.body.platformId;
-  let content = ctx.request.body.description;
+  let content = ctx.request.body.content;
 
   let body = {
     ...ctx.request.body,
