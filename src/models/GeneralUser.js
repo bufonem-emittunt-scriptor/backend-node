@@ -36,7 +36,8 @@ let GeneralUser = new Schema({
 
     museumSubs: {type: Array}, //массив айди музеев
     achievements: {type: Array}, //массив строк
-    charm: {type: Number}
+    charm: {type: Number},
+
 
 });
 module.exports = mongoose.model('User', GeneralUser);

@@ -11,6 +11,8 @@ const PORT = 3000;
 require("./utils/auth");
 const passport = require("koa-passport");
 
+const cors = require("koa-cors");
+
 app = new Koa();
 
 mongoose.set('useCreateIndex', true);
@@ -24,22 +26,14 @@ mongoose.connect('mongodb+srv://mongodb:mongodb@cluster0-yhow8.mongodb.net/test?
 const session = require("koa-session");
 app.keys = [process.env.SESSION_SECRET];
 
-app
-  .use(session({
-    secret: 'secrettexthere',
-    saveUninitialized: true,
-    resave: true,
-    // using store session on MongoDB using express-session + connect
-    store: new MongoStore({
-    url: config.urlMongo,
-    collection: 'sessions'
-  })
-  }, app))
-  .use(passport.initialize())
-  .use(passport.session())
-  .use(bodyParser())
-  .use(router.routes())
-  .use(router.allowedMethods());
+app.use(cors({origin: '*'}));
+app.use(session({}, app));
+app.use(passport.initialize());
+app.use(passport.session());
+app.use(bodyParser());
+app.use(router.routes());
+app.use(router.allowedMethods());
+
 
 app.listen(PORT, () => {
   console.log(`Server listening on port: ${PORT}`);

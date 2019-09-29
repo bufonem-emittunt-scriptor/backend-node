@@ -24,24 +24,10 @@ function decodeToken(token) {
 
 exports.isAuthenticated = () => {
   return async (ctx, next) => {
-    if (ctx.request.header.authorization === undefined) {
-      return (ctx.body = {
-        status: "fail",
-        message: "undefiend header.authorization"
-      });
-    }
-    try {
-      const jsonValue = await decodeToken(
-        ctx.request.header.authorization.split(" ")[1]
-      );
-      console.log(jsonValue);
+      // const jsonValue = await decodeToken(
+      //   ctx.request.header.authorization.split(" ")[1]
+      // );
+      // console.log(jsonValue);
       return next();
-    } catch (e) {
-      console.log(e);
-      return (ctx.body = {
-        status: "fail",
-        message: "not validate"
-      });
-    }
   };
 };
