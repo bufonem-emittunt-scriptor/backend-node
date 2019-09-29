@@ -1,5 +1,4 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
+
 const mongoose = require("mongoose");
 let Schema = mongoose.Schema;
 let blackListSchema = new Schema({
@@ -9,5 +8,5 @@ let blackListSchema = new Schema({
     blockReason: { type: String },
     creationDate: { type: Date },
 });
-exports.BlackListSchema = mongoose.model('BlackList', blackListSchema);
+module.exports = mongoose.model('BlackList', blackListSchema);
 //# sourceMappingURL=BlackListSchema.js.map
