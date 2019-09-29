@@ -35,13 +35,14 @@ app.use(passport.session());
 app.use(bodyParser());
 app.use(router.routes());
 app.use(router.allowedMethods());
-app.use(function (ctx, next) {
-    ctx.set('Access-Control-Allow-Origin', '*');
-    ctx.set('Access-Control-Allow-Headers', 'content-type');
-    ctx.set('Access-Control-Allow-Methods', 'POST, GET, PUT, DELETE, OPTIONS');
-    // ctx.set('Access-Control-Allow-Credentials', true);
-    next();
-});
+// app.use(function (ctx, next) {
+//     ctx.set('Access-Control-Allow-Origin', '*');
+//     ctx.set('Access-Control-Allow-Headers', 'content-type');
+//     ctx.set('Access-Control-Allow-Methods', 'POST, GET, PUT, DELETE, OPTIONS');
+//     // ctx.set('Access-Control-Allow-Credentials', true);
+//     next();
+// });
+app.use(cors({origin: "*", allowMethods: "*"}));
 
 
 app.listen(process.env.PORT, () => {
