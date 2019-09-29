@@ -27,7 +27,7 @@ mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true }).then((res) 
 const session = require("koa-session");
 app.keys = [process.env.SESSION_SECRET];
 
-app.use(cors({origins: "*", allowMethods: "*"}));
+app.use(cors({origin: "*", allowMethods: "*"}));
 app.use(session({}, app));
 app.use(passport.initialize());
 app.use(passport.session());
