@@ -256,7 +256,7 @@ router.post('/search', async (ctx)=>{
   ctx.body = ctx.request.body;
 
   try{
-      return await findUser(offset, limit, conditions, orderBy) || (ctx.body = "Ничего не найдено");
+      ctx.body = await findUser(offset, limit, conditions, orderBy) || (ctx.body = "Ничего не найдено");
 
   }catch (e) {
       ctx.body = e;

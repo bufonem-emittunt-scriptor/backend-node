@@ -6,14 +6,14 @@ module.exports = async function findUser(_offset = 0, _limit = 15,
 
         let offset = _offset || null;
         let limit = _limit || null;
-        let conditions = _conditions || [{and: [], or: []}];
+        let conditions = _conditions || [];
         let orderBy = _orderBy || {};
         // console.log(conditions, 'conditions');
 
         //conds spread
         let conds = {};
         // console.log("iiiiiiiiiiiiiiiiiiiiiiiiiiiiii")
-        conditions.and.forEach((i, index)=> {
+        conditions.forEach((i, index)=> {
           console.log(i, "iiiiiiiiiiiiiiiiiiiiiiiiiiiiii")
             let obj = {};
 

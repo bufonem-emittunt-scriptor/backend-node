@@ -7,16 +7,33 @@ const EventSchema = require("./../models/EventSchema");
 router.get("/", async (ctx, next) => {
   try{
     let res = await EventSchema.find({});
-    return res;
+    ctx.body = res;
   }catch (e) {
     console.log(e);
   }
 });
+
+router.get("/:id", async (ctx, next) => {
+  let id = ctx.params.id;
+  try{
+    let res = await EventSchema.find({id});
+    ctx.body = res;
+  }catch (e) {
+    console.log(e);
+  }
+});
+
 router.post("/create", async (ctx, next) => {
   let platformId = ctx.request.body.platformId
   let description = ctx.request.body.description
   let startDate = ctx.request.body.startDate
   let endDate = ctx.request.body.endDate
+
+  let body = {
+    ...ctx.request.body,
+    id: new Date().getTime(),
+    creationDate: new Date()
+  };
 
   if(!platformId || !startDate){
     ctx.body = "Не введены обязательные поля 'platformId, startDate'" ;
@@ -25,8 +42,18 @@ router.post("/create", async (ctx, next) => {
   }
   try{
     // console.log(EventSchema, 'event');
-    let res = await EventSchema.create(ctx.request.body);
+    let res = await EventSchema.create(body);
     ctx.body = "Событие успешно создано"
+  }catch (e) {
+    console.log(e);
+  }
+});
+
+router.delete("/:id", async (ctx, next) => {
+  let id = ctx.params.id;
+  try{
+    let res = await EventSchema.findOneAndRemove({id});
+    ctx.body = res;
   }catch (e) {
     console.log(e);
   }
