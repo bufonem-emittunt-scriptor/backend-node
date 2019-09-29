@@ -33,6 +33,7 @@ app.use(session({}, app));
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(bodyParser());
+app.use(cors({}));
 app.use(router.routes());
 app.use(router.allowedMethods());
 // app.use(function (ctx, next) {
@@ -42,7 +43,7 @@ app.use(router.allowedMethods());
 //     // ctx.set('Access-Control-Allow-Credentials', true);
 //     next();
 // });
-app.use(cors({origin: "*", allowMethods: "*"}));
+
 
 
 app.listen(process.env.PORT, () => {
