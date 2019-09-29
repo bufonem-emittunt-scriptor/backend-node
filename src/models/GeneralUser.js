@@ -33,6 +33,7 @@ let GeneralUser = new Schema({
     bio: { type: String },
     position: { type: String },
     whyInterest: { type: String },
+    avatar: { type: String },
 
     museumSubs: {type: Array}, //массив айди музеев
     achievements: {type: Array}, //массив строк
