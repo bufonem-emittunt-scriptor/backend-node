@@ -6,6 +6,8 @@ const { isAuthenticated } = require("../utils");
 const User = require("./../models/GeneralUser");
 const jwt = require("jsonwebtoken");
 
+const findUser = require("./../services/FindService");
+
 const saltRounds = 10;
 
 // User routes
@@ -196,10 +198,11 @@ router.post("/", async (ctx) => {
   let password = ctx.request.body.password;
   let role = ctx.request.body.role;
 
+  // console.log(ctx.request.body.userName, userName, 'userName');
+
   if(!userName || !password || !role){
     ctx.body = "Заполните обязательные поля 'userName, password, role'";
     ctx.response.status = 403;
-    return;
   }
 
   try{
@@ -241,6 +244,24 @@ router.delete("/:id", isAuthenticated(), async (ctx, next) => {
     ctx.body = `There have been some errors: ${error}`;
   }
   await next();
+});
+
+router.post('/search', async (ctx)=>{
+  // ctx.body = ctx.request.body;
+  let limit = ctx.request.body.limit;
+  let offset = ctx.request.body.offset;
+  let conditions = ctx.request.body.conditions;
+  let orderBy = ctx.request.body.orderBy;
+
+  ctx.body = ctx.request.body;
+
+  try{
+      return await findUser(offset, limit, conditions, orderBy) || (ctx.body = "Ничего не найдено");
+
+  }catch (e) {
+      ctx.body = e;
+      ctx.response.status = 403
+  }
 });
 
 module.exports = router;
