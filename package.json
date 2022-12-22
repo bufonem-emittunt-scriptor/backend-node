@@ -14,7 +14,7 @@
     "composable-middleware": "^0.3.0",
     "connect-mongo": "^3.0.0",
     "dotenv": "^8.0.0",
-    "jsonwebtoken": "^8.5.1",
+    "jsonwebtoken": "^9.0.0",
     "koa": "^2.7.0",
     "koa-bodyparser": "^4.2.1",
     "koa-cors": "^0.0.16",
